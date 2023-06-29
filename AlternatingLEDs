@@ -1,0 +1,34 @@
+#!/usr/bin/python3
+
+from gpiozero import LED, Button
+from signal import pause
+from time import sleep
+
+led_green = LED(22)
+led_red = LED(18)
+led_blue = LED(5)
+button = Button(21)
+
+def button_press():
+	button.wait_for_press()
+	while button.is_pressed == True:
+		led_green.on()
+		sleep(.1)
+		led_green.off()
+		if button.is_pressed == True:
+			led_red.on()
+			sleep(.1)
+			led_red.off()
+		if button.is_pressed == True:
+			led_blue.on()
+			sleep(.1)
+			led_blue.off()
+	while button.is_pressed == False:
+		led_green.off()
+		led_red.off()
+		button.wait_for_press()
+		if button.is_pressed == True:
+			button_press()
+
+button_press()
+pause()
